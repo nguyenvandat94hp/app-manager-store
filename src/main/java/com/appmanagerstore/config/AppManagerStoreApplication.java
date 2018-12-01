@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
@@ -21,6 +22,8 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 @SpringBootApplication
 @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class,
 		DataSourceTransactionManagerAutoConfiguration.class, HibernateJpaAutoConfiguration.class })
+@PropertySource("classpath:/application.properties")
+@PropertySource("classpath:/application-dev.properties")
 public class AppManagerStoreApplication {
 
 	@Autowired
@@ -59,7 +62,7 @@ public class AppManagerStoreApplication {
 		LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
 
 		// Package contain entity classes
-		factoryBean.setPackagesToScan(new String[] { "" });
+		factoryBean.setPackagesToScan(new String[] { "com.appmanagerstore.entity" });
 		factoryBean.setDataSource(dataSource);
 		factoryBean.setHibernateProperties(properties);
 		factoryBean.afterPropertiesSet();
